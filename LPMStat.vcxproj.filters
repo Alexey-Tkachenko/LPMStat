@@ -42,9 +42,6 @@
     <ClInclude Include="Median.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="NmeaReaderTask.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="PlacementNew.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -78,15 +75,21 @@
     <ClInclude Include="Globals.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="NmeaReaderTask.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DataTypes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SdWriter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="abort.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="LcdIo.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="NmeaReaderTask.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Scheduler.cpp">
@@ -102,6 +105,15 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="WaitHandles.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="NmeaReaderTask.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Globals.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SdWriter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

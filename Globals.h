@@ -5,11 +5,11 @@
 
 enum class Pins : byte
 {
-    //NMEA_RX = 0xFF,
-    //NMEA_TX = 0xFF,
+    NMEA_RX = 9,
+    NMEA_TX = 8,
 
-    LPM_RX = 9,
-    LPM_TX = 8,
+    /*LPM_RX = 9,
+    LPM_TX = 8,*/
 
     SD_ENABLE = 13,
 
@@ -31,5 +31,9 @@ namespace NmeaData
 }
 
 extern byte PressedButtons;
+
+class SdWriter;
+
+extern SdWriter *card;
 
 #endif

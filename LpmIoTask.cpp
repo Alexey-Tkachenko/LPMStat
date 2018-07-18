@@ -7,7 +7,8 @@
 #include "Globals.h"
 
 static WaitHandles::Event beginMeasureEvent;
-static SoftwareSerial lpmSerialPort = SoftwareSerial((byte)Pins::LPM_RX, (byte)Pins::LPM_TX);
+//static SoftwareSerial lpmSerialPort = SoftwareSerial((byte)Pins::LPM_RX, (byte)Pins::LPM_TX);
+#define lpmSerialPort Serial
 static WaitHandles::ValueHolder<int> lpmValue;
 static int lpmCalibration;
 

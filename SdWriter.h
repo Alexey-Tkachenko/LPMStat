@@ -8,9 +8,9 @@ class SdWriter : Print
 {
 private:
     SdWriter();
-    SdFile file;
+    SDLib::File file;
 
-    static SdWriter& StartSD();
+    static SdWriter* StartSD();
 
     SdWriter(const SdWriter&) = delete;
     SdWriter(SdWriter&&) = delete;
@@ -18,27 +18,37 @@ private:
     SdWriter& operator=(SdWriter&&) = delete;
 
 public:
-    struct eol_t {};
-    static const eol_t eol;
-
-    static SdWriter& Open(::DateTime dateTime);
+    static SdWriter* Open(const ::DateTime& dateTime);
     void flush() override;
     ~SdWriter();
 
     size_t write(uint8_t data) override;
 
-    template<class T>
-    SdWriter& operator<<(const T& content)
-    {
-        file.print(content);
-        return *this;
-    }
-
-    SdWriter& operator<<(eol_t)
-    {
-        flush();
-        return *this;
-    }
+    
 };
+
+struct eol_t {};
+const eol_t eol;
+
+template<class T>
+inline SdWriter* operator<<(SdWriter* writer, const T& content)
+{
+    if (writer)
+    {
+        writer->print(content);
+    }
+    return writer;
+}
+
+inline SdWriter* operator<< (SdWriter* writer, eol_t)
+{
+    if (writer)
+    {
+        writer->flush();
+    }
+    return writer;
+}
+
+
 
 #endif

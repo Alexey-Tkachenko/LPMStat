@@ -7,13 +7,16 @@
 #include "LcdIo.h"
 #include "WString.h"
 
-WaitHandles::DataQueue<LcdCommand, 16> command;
+WaitHandles::DataQueue<LcdCommand, 16> lcdCommandQueue;
 
-TASK_BEGIN(LcdIoTask, { LcdCommand cmd; byte backlight; } _)
-_.backlight = 0xFF;
+TASK_BEGIN(LcdIoTask, { LcdCommand cmd; } _)
+
+lcdInit();
+lcdPrint(F("LCD Starting"));
+
 for (;;)
 {
-    TASK_WAIT_VALUE(&command, _.cmd);
+    TASK_WAIT_VALUE(&lcdCommandQueue, _.cmd);
 
     switch (_.cmd.Code)
     {
@@ -44,10 +47,7 @@ for (;;)
         lcdPutCharAt(_.cmd.Row, _.cmd.Column, _.cmd.Char);
         break;
     case LcdCommandCode::Backlight:
-        lcdSetBacklight(_.cmd.BacklightValue ? _.backlight : 0);
-        break;
-    case LcdCommandCode::BacklightPwm:
-        lcdSetBacklight(_.backlight = _.cmd.BacklightPwmValue);
+        lcdSetBacklight(_.cmd.BacklightValue);
         break;
     }
 
@@ -62,7 +62,7 @@ void RegisterLcdIoTask(Scheduler &scheduler)
 
 bool LcdCommandEnqueue(const LcdCommand & command)
 {
-    return ::command.Put(command);
+    return ::lcdCommandQueue.Put(command);
 }
 
 static LcdCommand InitNone()
@@ -150,14 +150,6 @@ LcdCommand LcdCommand::Backlight(bool value)
     LcdCommand cmd;
     cmd.Code = LcdCommandCode::Backlight;
     cmd.BacklightValue = value;
-    return cmd;
-}
-
-LcdCommand LcdCommand::BacklightPwm(byte value)
-{
-    LcdCommand cmd;
-    cmd.Code = LcdCommandCode::BacklightPwm;
-    cmd.BacklightPwmValue = value;
     return cmd;
 }
 

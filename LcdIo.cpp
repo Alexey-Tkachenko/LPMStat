@@ -1,12 +1,13 @@
 #include "LcdIo.h"
-#include <LiquidCrystal_I2C.h>
+#include "libs/LCD/LiquidCrystal_I2C.h"
 #include "Globals.h"
-
-
-LiquidCrystal_I2C lcd((byte)I2C::LCD, 16, 2);
 
 const byte LCD_ROWS = 2;
 const byte LCD_COLS = 16;
+
+
+LiquidCrystal_I2C lcd((byte)I2C::LCD, LCD_COLS, LCD_ROWS);
+
 
 void lcdClear()
 {
@@ -24,7 +25,7 @@ void lcdClearLine(byte line)
 
 void lcdInit()
 {
-	lcd.begin(16, 2);
+	lcd.begin();
     lcd.setBacklight(0xFF);
 }
 
@@ -87,8 +88,8 @@ void lcdPutLineAt(byte row, byte col, const __FlashStringHelper* symbols)
 	lcd.print(symbols);
 }
 
-void lcdSetBacklight(byte pwmValue)
+void lcdSetBacklight(bool value)
 {
-    lcd.setBacklight(pwmValue);
+    lcd.setBacklight(value ? 1 : 0);
 }
 

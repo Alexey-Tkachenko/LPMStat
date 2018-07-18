@@ -5,20 +5,21 @@
 #include "StaticAllocActivator.h"
 #include "Globals.h"
 #include "Critical.h"
-#include "TinyGPS-mod.h"
+#include "libs/GPS/TinyGPS-mod.h"
 #include "Globals.h"
 
 #include "LcdIo.h"
 #include <SoftwareSerial.h>
-
+#include "LcdIoTask.h"
 static TinyGPS_mod gps;
 
-#define NMEA Serial
+static SoftwareSerial NMEA = SoftwareSerial((byte)Pins::NMEA_RX, (byte)Pins::NMEA_TX);
 
 TASK_BEGIN(NmeaReaderTask, 
-{ 
+{
 	bool newData;
 	int c;
+    byte i;
 })
 
 NMEA.begin(9600);
@@ -52,6 +53,11 @@ for (;;)
 
 		NmeaData::DateTime = { (byte)year, month, day, hour, minute, second };
 		NmeaData::Location = { lat, lon, alt };
+        if (!NmeaData::FirstDateTimeHasValue)
+        {
+            NmeaData::FirstDateTime = NmeaData::DateTime;
+            NmeaData::FirstDateTimeHasValue = true;
+        }
 	}
 }
 

@@ -1,4 +1,5 @@
 #include "Globals.h"
+#include "SdWriter.h"
 
 namespace NmeaData
 {
@@ -10,3 +11,5 @@ namespace NmeaData
 }
 
 byte PressedButtons;
+
+SdWriter* card;

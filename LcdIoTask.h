@@ -17,7 +17,6 @@ enum struct LcdCommandCode : byte
     WriteAtFlash,
     CharAt,
     Backlight,
-    BacklightPwm,
 };
 
 struct LcdCommand 
@@ -53,7 +52,6 @@ struct LcdCommand
     static LcdCommand WriteAt(byte row, byte column, const __FlashStringHelper* str);
     static LcdCommand CharAt(byte row, byte column, char c);
     static LcdCommand Backlight(bool value);
-    static LcdCommand BacklightPwm(byte value);
 
     void Enqueue();
 };

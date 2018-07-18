@@ -1,17 +1,22 @@
 #include "SdWriter.h"
 #include "Globals.h"
+#include "PlacementNew.h"
 
-void SdWriter::StartSD()
+SdWriter& SdWriter::StartSD()
 {
-    static bool sdStarted;
-    if (sdStarted) return;
-    sdStarted = true;
-    SD.begin((byte)Pins::SD_ENABLE);
+    static SdWriter* sdPtr;
+    static byte instance[sizeof(SdWriter)];
+    if (sdPtr == nullptr)
+    {
+        sdPtr = new(instance)SdWriter();
+        SD.begin((byte)Pins::SD_ENABLE);
+    }
+    return *sdPtr;
 }
 
 SdWriter & SdWriter::Open(::DateTime dateTime)
 {
-    StartSD();
+    return StartSD();
 }
 
 inline void SdWriter::flush()

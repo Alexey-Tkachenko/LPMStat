@@ -56,6 +56,8 @@ namespace WaitHandles
 	public:
 		Condition();
 
+        DELETE_COPY(Condition);
+
 		template<class T>
 		Condition(bool(*arg)(T*), T* data)
 		{
@@ -110,7 +112,9 @@ namespace WaitHandles
 		ValueHolder() : value(), signalled(false) {}
 		ValueHolder(const T& initial) : value(initial), signalled(false) 
 		{}
-		
+
+        DELETE_COPY(ValueHolder);
+
 		const T& Get()
 		{
 			signalled = false;
@@ -132,6 +136,69 @@ namespace WaitHandles
 		T value;
 		volatile bool signalled;
 	};
+
+    template<typename T>
+    struct Empty
+    {
+        static const T& Value()
+        {
+            static T value{};
+            return value;
+        }
+    };
+
+    template<typename T, size_t Size, typename SizeType = size_t>
+    class DataQueue : public WaitObject
+    {
+    private:
+        static SizeType Next(SizeType& pos)
+        {
+            ++pos;
+            if (pos == Size)
+            {
+                pos = 0;
+            }
+            return pos;
+        }
+    public:
+        DataQueue() : values() {}
+
+        DELETE_COPY(DataQueue);
+
+        const T& Get()
+        {
+            if (size == 0) return Empty<T>::Value();
+
+            T& value = values[read];
+            Next(read);
+            --size;
+            return value;
+        }
+
+        bool Put(const T& value)
+        {
+            if (size == Size)
+            {
+                return false;
+            }
+
+            values[write] = value;
+            Next(write);
+            ++size;
+            return true;
+        }
+
+        virtual bool IsSignalled() override
+        {
+            return size != 0;
+        }
+
+    private:
+        T values[Size];
+        SizeType read;
+        SizeType write;
+        SizeType size;
+    };
 }
 
 

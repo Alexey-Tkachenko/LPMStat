@@ -50,7 +50,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\LPMStat;C:\Program Files (x86)\Arduino\hardware\arduino\avr\libraries\SPI\src;C:\Program Files (x86)\Arduino\hardware\arduino\avr\libraries\SoftwareSerial\src;C:\Program Files (x86)\Arduino\libraries\SD\src;C:\Program Files (x86)\Arduino\libraries\LiquidCrystal\src;C:\Program Files (x86)\Arduino\libraries\SD\src\utility;C:\Program Files (x86)\Arduino\libraries;C:\Users\Deimos\Documents\Arduino\libraries;C:\Program Files (x86)\Arduino\hardware\arduino\avr\libraries;C:\Program Files (x86)\Arduino\hardware\arduino\avr\cores\arduino;C:\Program Files (x86)\Arduino\hardware\arduino\avr\variants\standard;C:\Program Files (x86)\Arduino\hardware\tools\avr\avr\include;C:\Program Files (x86)\Arduino\hardware\tools\avr\avr\include\avr;C:\Program Files (x86)\Arduino\hardware\tools\avr\lib\gcc\avr\4.8.1\include;C:\Program Files (x86)\Arduino\hardware\tools\avr\lib\gcc\avr\4.9.2\include;C:\Program Files (x86)\Arduino\hardware\tools\avr\lib\gcc\avr\4.9.3\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\LPMStat;C:\Users\Deimos\Documents\Arduino\libraries\LiquidCrystal_I2C_V112;C:\Program Files (x86)\Arduino\hardware\arduino\avr\libraries\Wire\src;C:\Program Files (x86)\Arduino\hardware\arduino\avr\libraries\SPI\src;C:\Program Files (x86)\Arduino\hardware\arduino\avr\libraries\SoftwareSerial\src;C:\Program Files (x86)\Arduino\libraries\SD\src;C:\Program Files (x86)\Arduino\libraries\SD\src\utility;C:\Program Files (x86)\Arduino\hardware\arduino\avr\libraries\Wire\src\utility;C:\Program Files (x86)\Arduino\libraries;C:\Users\Deimos\Documents\Arduino\libraries;C:\Program Files (x86)\Arduino\hardware\arduino\avr\libraries;C:\Program Files (x86)\Arduino\hardware\arduino\avr\cores\arduino;C:\Program Files (x86)\Arduino\hardware\arduino\avr\variants\standard;C:\Program Files (x86)\Arduino\hardware\tools\avr\avr\include;C:\Program Files (x86)\Arduino\hardware\tools\avr\avr\include\avr;C:\Program Files (x86)\Arduino\hardware\tools\avr\lib\gcc\avr\4.8.1\include;C:\Program Files (x86)\Arduino\hardware\tools\avr\lib\gcc\avr\4.9.2\include;C:\Program Files (x86)\Arduino\hardware\tools\avr\lib\gcc\avr\4.9.3\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <ForcedIncludeFiles>$(ProjectDir)__vm\.LPMStat.vsarduino.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
       <WholeProgramOptimization>false</WholeProgramOptimization>
       <PreprocessorDefinitions>__AVR_ATmega328p__;__AVR_ATmega328P__;SERIAL_TX_BUFFER_SIZE=1;SERIAL_RX_BUFFER_SIZE=256;_SS_MAX_RX_BUFF=256;F_CPU=16000000L;ARDUINO=10805;ARDUINO_AVR_UNO;ARDUINO_ARCH_AVR;__cplusplus=201103L;_VMICRO_INTELLISENSE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -85,12 +85,17 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Assert.h" />
+    <ClInclude Include="Buttons.h" />
+    <ClInclude Include="ButtonsReaderTask.h" />
     <ClInclude Include="ConditionWrapper.h" />
+    <ClInclude Include="ControlTask.h" />
     <ClInclude Include="Critical.h" />
     <ClInclude Include="DataTypes.h" />
     <ClInclude Include="ExpressTask.h" />
     <ClInclude Include="Globals.h" />
     <ClInclude Include="LcdIo.h" />
+    <ClInclude Include="LcdIoTask.h" />
+    <ClInclude Include="LpmIoTask.h" />
     <ClInclude Include="Maybe.h" />
     <ClInclude Include="Median.h" />
     <ClInclude Include="NmeaReaderTask.h" />
@@ -109,8 +114,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="abort.cpp" />
+    <ClCompile Include="ButtonsReaderTask.cpp" />
+    <ClCompile Include="ControlTask.cpp" />
     <ClCompile Include="Globals.cpp" />
     <ClCompile Include="LcdIo.cpp" />
+    <ClCompile Include="LcdIoTask.cpp" />
+    <ClCompile Include="LpmIoTask.cpp" />
     <ClCompile Include="NmeaReaderTask.cpp" />
     <ClCompile Include="Scheduler.cpp" />
     <ClCompile Include="SdWriter.cpp" />
@@ -127,7 +136,7 @@
   </ImportGroup>
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties VM_ADDITIONAL_COMPILER_CPP_FLAGS="-Ofast -fconserve-stack" VM_ReCompileCoreOnProjectMacroChange="1" VM_ADDITIONAL_PREPROC="SERIAL_TX_BUFFER_SIZE=1;SERIAL_RX_BUFFER_SIZE=256;_SS_MAX_RX_BUFF=256" />
+      <UserProperties VM_ADDITIONAL_COMPILER_CPP_FLAGS="-O2 -fno-conserve-stack" VM_ReCompileCoreOnProjectMacroChange="1" VM_ADDITIONAL_PREPROC="SERIAL_TX_BUFFER_SIZE=1;SERIAL_RX_BUFFER_SIZE=256;_SS_MAX_RX_BUFF=256" />
     </VisualStudio>
   </ProjectExtensions>
 </Project>

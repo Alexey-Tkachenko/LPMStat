@@ -13,13 +13,15 @@
 
 static TinyGPS_mod gps;
 
-static SoftwareSerial NMEA((byte)Pins::NMEA_RX, (byte)Pins::NMEA_TX);
+#define NMEA Serial
 
 TASK_BEGIN(NmeaReaderTask, 
 { 
 	bool newData;
 	int c;
 })
+
+NMEA.begin(9600);
 
 for (;;)
 {

@@ -10,7 +10,7 @@ private:
     SdWriter();
     SdFile file;
 
-    static void StartSD();
+    static SdWriter& StartSD();
 
     SdWriter(const SdWriter&) = delete;
     SdWriter(SdWriter&&) = delete;
@@ -31,11 +31,13 @@ public:
     SdWriter& operator<<(const T& content)
     {
         file.print(content);
+        return *this;
     }
 
     SdWriter& operator<<(eol_t)
     {
         flush();
+        return *this;
     }
 };
 

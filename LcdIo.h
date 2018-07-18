@@ -27,4 +27,6 @@ void lcdPutLineAt(byte row, byte col, const char* symbols);
 
 void lcdPutLineAt(byte row, byte col, const __FlashStringHelper* symbols);
 
+void lcdSetBacklight(byte pwmValue);
+
 #endif

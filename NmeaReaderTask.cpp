@@ -13,7 +13,10 @@
 #include "LcdIoTask.h"
 static TinyGPS_mod gps;
 
-static SoftwareSerial NMEA = SoftwareSerial((byte)Pins::NMEA_RX, (byte)Pins::NMEA_TX);
+//static SoftwareSerial NMEA = SoftwareSerial((byte)Pins::NMEA_RX, (byte)Pins::NMEA_TX);
+#define NMEA Serial
+
+void UpdateVersion(byte& version);
 
 TASK_BEGIN(NmeaReaderTask, 
 {
@@ -30,6 +33,9 @@ for (;;)
 	while (NMEA.available())
 	{
 		c = NMEA.read();
+#ifdef DISPLAY_NMEA
+        Serial.write(c);
+#endif
 		if (gps.encode(c))
 		{
 			newData = true;
@@ -47,24 +53,28 @@ for (;;)
 		gps.crack_datetime(&year, &month, &day, &hour, &minute, &second, &hundredths, &age);
 		year -= 2000;
 
-		float lon, lat;
-		gps.f_get_position(&lat, &lon, &age);
+		long lon, lat;
+		gps.get_position(&lat, &lon, &age);
 		int alt = (gps.altitude() + 50) / 100;
 
 		NmeaData::DateTime = { (byte)year, month, day, hour, minute, second };
-		NmeaData::Location = { lat, lon, alt };
-        if (!NmeaData::FirstDateTimeHasValue)
-        {
-            NmeaData::FirstDateTime = NmeaData::DateTime;
-            NmeaData::FirstDateTimeHasValue = true;
-        }
+		NmeaData::Location = { Angle(lat), Angle(lon), alt };
+        UpdateVersion(::NmeaData::Version);
 	}
 }
 
 TASK_END;
 
+inline void UpdateVersion(byte& version)
+{
+    if (!++version)
+    {
+        ++version;
+    }
+}
+
 bool RegisterNmeaReaderTask(Scheduler& scheduler)
 {
-	return scheduler.Register(Instance<NmeaReaderTask>(), TaskPriority::SensorPoll);
+	return scheduler.Register(InstanceOnce<NmeaReaderTask>(), TaskPriority::SensorPoll);
 }
 

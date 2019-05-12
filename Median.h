@@ -13,6 +13,14 @@ public:
 	{
 	}
 
+    void Reset()
+    {
+        for (IDX i = 0; i < N; ++i)
+        {
+            values[i] = T();
+        }
+    }
+
 	void write(T val)
 	{
 		values[i++] = val;
@@ -56,6 +64,11 @@ public:
 	{
 		return val;
 	}
+
+    void Reset()
+    {
+        val = 0;
+    }
 };
 
 

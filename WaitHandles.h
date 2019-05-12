@@ -5,6 +5,7 @@
 #include "WaitObject.h"
 #include "ConditionWrapper.h"
 #include "PlacementNew.h"
+#include "Assert.h"
 
 #define DELETE_COPY(T) T(const T&) = delete; T& operator=(const T&) = delete;
 
@@ -147,14 +148,14 @@ namespace WaitHandles
         }
     };
 
-    template<typename T, size_t Size, typename SizeType = size_t>
+    template<typename T, size_t Capacity, typename SizeType = size_t>
     class DataQueue : public WaitObject
     {
     private:
         static SizeType Next(SizeType& pos)
         {
             ++pos;
-            if (pos == Size)
+            if (pos == Capacity)
             {
                 pos = 0;
             }
@@ -177,7 +178,7 @@ namespace WaitHandles
 
         bool Put(const T& value)
         {
-            if (size == Size)
+            if (size == Capacity)
             {
                 return false;
             }
@@ -193,8 +194,13 @@ namespace WaitHandles
             return size != 0;
         }
 
+        SizeType Size() const
+        {
+            return size;
+        }
+
     private:
-        T values[Size];
+        T values[Capacity];
         SizeType read;
         SizeType write;
         SizeType size;

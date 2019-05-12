@@ -5,9 +5,7 @@ namespace NmeaData
 {
     ::DateTime DateTime;
     ::Location Location;
-
-    ::DateTime FirstDateTime;
-    byte FirstDateTimeHasValue;
+    byte Version;
 }
 
 byte PressedButtons;

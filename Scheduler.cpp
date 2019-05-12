@@ -133,7 +133,10 @@ void Scheduler::Invoke()
 {
 	PollSensors();
 	unsigned long expiration = millis() + Period;
-	bool rt = RealTime();
+#ifdef SCHEDULER_SUPPORTS_IDLE
+    bool rt =
+#endif // 
+        RealTime();
 	TickNormal(expiration);
 #ifdef SCHEDULER_SUPPORTS_IDLE	
 	if (rt == false && millis() < expiration)

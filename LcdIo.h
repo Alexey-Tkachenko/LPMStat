@@ -7,9 +7,9 @@
 #define SYMBOL_DEG 1
 #define SYMBOL_MIN 2
 #define SYMBOL_SEC 3
-#define SYMBOL_RISE 4
-#define SYMBOL_FALL 5
 
+#define SYMBOL_START 4
+#define SYMBOL_STOP 5
 
 void lcdPrint(const char* a = 0, const char* b = 0, bool clear = true);
 

@@ -5,9 +5,27 @@
 
 void RegisterLpmIoTask(Scheduler& scheduler);
 
-bool LpmStartMeasure(WaitHandles::ValueHolder<int>** target);
+class Magnitude
+{
+    int value;
+public:
+    Magnitude();
 
-int LpmGetCalibration();
+    explicit Magnitude(int value);
+
+    inline int Value() const
+    {
+        return value;
+    }
+
+    bool operator<(const Magnitude& other);
+    
+};
+
+
+bool LpmStartMeasure(WaitHandles::ValueHolder<Magnitude>** target);
+
+Magnitude LpmGetCalibration();
 
 #endif
 

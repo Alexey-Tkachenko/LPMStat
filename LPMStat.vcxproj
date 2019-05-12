@@ -50,10 +50,10 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\LPMStat;C:\Program Files (x86)\Arduino\hardware\arduino\avr\libraries\SPI\src;C:\Program Files (x86)\Arduino\hardware\arduino\avr\libraries\SoftwareSerial\src;C:\Program Files (x86)\Arduino\libraries\SD\src;C:\Program Files (x86)\Arduino\hardware\arduino\avr\libraries\Wire\src;C:\Program Files (x86)\Arduino\libraries\SD\src\utility;C:\Program Files (x86)\Arduino\hardware\arduino\avr\libraries\Wire\src\utility;C:\Program Files (x86)\Arduino\libraries;C:\Users\Deimos\Documents\Arduino\libraries;C:\Program Files (x86)\Arduino\hardware\arduino\avr\libraries;C:\Program Files (x86)\Arduino\hardware\arduino\avr\cores\arduino;C:\Program Files (x86)\Arduino\hardware\arduino\avr\variants\standard;C:\Program Files (x86)\Arduino\hardware\tools\avr\avr\include;C:\Program Files (x86)\Arduino\hardware\tools\avr\avr\include\avr;C:\Program Files (x86)\Arduino\hardware\tools\avr\lib\gcc\avr\4.8.1\include;C:\Program Files (x86)\Arduino\hardware\tools\avr\lib\gcc\avr\4.9.2\include;C:\Program Files (x86)\Arduino\hardware\tools\avr\lib\gcc\avr\4.9.3\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\LPMStat;C:\Program Files (x86)\Arduino\hardware\arduino\avr\libraries\EEPROM\src;C:\Program Files (x86)\Arduino\hardware\arduino\avr\libraries\SPI\src;C:\Program Files (x86)\Arduino\hardware\arduino\avr\libraries\SoftwareSerial\src;C:\Program Files (x86)\Arduino\hardware\arduino\avr\libraries\Wire\src;C:\Program Files (x86)\Arduino\hardware\arduino\avr\libraries\Wire\src\utility;C:\Program Files (x86)\Arduino\libraries;C:\Users\Deimos\Documents\Arduino\libraries;C:\Program Files (x86)\Arduino\hardware\arduino\avr\libraries;C:\Program Files (x86)\Arduino\hardware\arduino\avr\cores\arduino;C:\Program Files (x86)\Arduino\hardware\arduino\avr\variants\standard;C:\Program Files (x86)\Arduino\hardware\tools\avr\avr\include;C:\Program Files (x86)\Arduino\hardware\tools\avr\avr\include\avr;C:\Program Files (x86)\Arduino\hardware\tools\avr\lib\gcc\avr\4.8.1\include;C:\Program Files (x86)\Arduino\hardware\tools\avr\lib\gcc\avr\4.9.2\include;C:\Program Files (x86)\Arduino\hardware\tools\avr\lib\gcc\avr\4.9.3\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <ForcedIncludeFiles>$(ProjectDir)__vm\.LPMStat.vsarduino.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
       <WholeProgramOptimization>false</WholeProgramOptimization>
-      <PreprocessorDefinitions>__AVR_ATmega328p__;__AVR_ATmega328P__;SERIAL_TX_BUFFER_SIZE=2;SERIAL_RX_BUFFER_SIZE=128;_SS_MAX_RX_BUFF=128;F_CPU=16000000L;ARDUINO=10805;ARDUINO_AVR_UNO;ARDUINO_ARCH_AVR;__cplusplus=201103L;_VMICRO_INTELLISENSE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>__AVR_ATmega328p__;__AVR_ATmega328P__;NO_DISPLAY_NMEA;SERIAL_TX_BUFFER_SIZE=2;SERIAL_RX_BUFFER_SIZE=48;_SS_MAX_RX_BUFF=8;TASK_QUEUE_CAPACITY=4;F_CPU=16000000L;ARDUINO=10805;ARDUINO_AVR_UNO;ARDUINO_ARCH_AVR;__cplusplus=201103L;_VMICRO_INTELLISENSE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -92,11 +92,20 @@
     <ClInclude Include="Critical.h" />
     <ClInclude Include="DataTypes.h" />
     <ClInclude Include="ExpressTask.h" />
+    <ClInclude Include="Format.h" />
     <ClInclude Include="Globals.h" />
     <ClInclude Include="LcdIo.h" />
     <ClInclude Include="LcdIoTask.h" />
     <ClInclude Include="libs\GPS\TinyGPS-mod.h" />
     <ClInclude Include="libs\LCD\LiquidCrystal_I2C.h" />
+    <ClInclude Include="libs\SD\SD.h" />
+    <ClInclude Include="libs\SD\utility\FatStructs.h" />
+    <ClInclude Include="libs\SD\utility\Sd2Card.h" />
+    <ClInclude Include="libs\SD\utility\Sd2PinMap.h" />
+    <ClInclude Include="libs\SD\utility\SdFat.h" />
+    <ClInclude Include="libs\SD\utility\SdFatmainpage.h" />
+    <ClInclude Include="libs\SD\utility\SdFatUtil.h" />
+    <ClInclude Include="libs\SD\utility\SdInfo.h" />
     <ClInclude Include="LpmIoTask.h" />
     <ClInclude Include="Maybe.h" />
     <ClInclude Include="Median.h" />
@@ -117,11 +126,17 @@
     <ClCompile Include="abort.cpp" />
     <ClCompile Include="ButtonsReaderTask.cpp" />
     <ClCompile Include="ControlTask.cpp" />
+    <ClCompile Include="Format.cpp" />
     <ClCompile Include="Globals.cpp" />
     <ClCompile Include="LcdIo.cpp" />
     <ClCompile Include="LcdIoTask.cpp" />
     <ClCompile Include="libs\GPS\TinyGPS-mod.cpp" />
     <ClCompile Include="libs\LCD\LiquidCrystal_I2C.cpp" />
+    <ClCompile Include="libs\SD\File.cpp" />
+    <ClCompile Include="libs\SD\SD.cpp" />
+    <ClCompile Include="libs\SD\utility\Sd2Card.cpp" />
+    <ClCompile Include="libs\SD\utility\SdFile.cpp" />
+    <ClCompile Include="libs\SD\utility\SdVolume.cpp" />
     <ClCompile Include="LpmIoTask.cpp" />
     <ClCompile Include="NmeaReaderTask.cpp" />
     <ClCompile Include="Scheduler.cpp" />
@@ -138,7 +153,7 @@
   </ImportGroup>
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties VM_ADDITIONAL_COMPILER_CPP_FLAGS="-O2 -fno-conserve-stack" VM_ReCompileCoreOnProjectMacroChange="1" arduino.upload.port="COM4" VM_ADDITIONAL_PREPROC="SERIAL_TX_BUFFER_SIZE=2;SERIAL_RX_BUFFER_SIZE=128;_SS_MAX_RX_BUFF=128" />
+      <UserProperties VM_ADDITIONAL_COMPILER_CPP_FLAGS="-Os" VM_ReCompileCoreOnProjectMacroChange="1" arduino.upload.port="COM4" VM_ADDITIONAL_PREPROC="NO_DISPLAY_NMEA;SERIAL_TX_BUFFER_SIZE=2;SERIAL_RX_BUFFER_SIZE=48;_SS_MAX_RX_BUFF=8;TASK_QUEUE_CAPACITY=4" />
     </VisualStudio>
   </ProjectExtensions>
 </Project>

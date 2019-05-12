@@ -44,19 +44,22 @@ struct LcdCommand
     };
 
     static const LcdCommand& None();
+    static const LcdCommand& Clear();
     static LcdCommand Write(const char* first, const char* second = nullptr);
     static LcdCommand Write(const __FlashStringHelper*  first, const __FlashStringHelper* second = nullptr);
     static LcdCommand WriteKeep(const char* first, const char* second = nullptr);
     static LcdCommand WriteKeep(const __FlashStringHelper*  first, const __FlashStringHelper* second = nullptr);
-    static LcdCommand WriteAt(byte row, byte column, const char* str);
-    static LcdCommand WriteAt(byte row, byte column, const __FlashStringHelper* str);
+    static LcdCommand WriteAt(byte row, byte column, const char* ptr);
+    static LcdCommand WriteAt(byte row, byte column, const __FlashStringHelper* ptr);
     static LcdCommand CharAt(byte row, byte column, char c);
     static LcdCommand Backlight(bool value);
 
-    void Enqueue();
+    void Enqueue() const;
 };
 
 bool LcdCommandEnqueue(const LcdCommand& command);
+
+void LcdSetState(bool state);
 
 #endif
 

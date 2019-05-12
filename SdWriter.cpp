@@ -3,17 +3,31 @@
 #include "PlacementNew.h"
 #include "Assert.h"
 
+static void SDDateTimeHook(uint16_t* date, uint16_t* time) 
+{
+    *date = FAT_DATE(NmeaData::DateTime.Year + 2000, NmeaData::DateTime.Month, NmeaData::DateTime.Day);
+    *time = FAT_TIME(NmeaData::DateTime.Hour, NmeaData::DateTime.Minute, NmeaData::DateTime.Second);
+}
+
 SdWriter* SdWriter::StartSD()
 {
     static SdWriter* sdPtr;
     static byte instance[sizeof(SdWriter)];
-    if (sdPtr == nullptr)
+    static byte state;
+
+    if (state == 0)
     {
         sdPtr = new(instance)SdWriter();
-        if (!SD.begin((byte)Pins::SD_ENABLE))
+    }
+    if (state != 1)
+    {
+        if (!SDX.begin((byte)Pins::SD_ENABLE))
         {
+            SdFile::dateTimeCallback(SDDateTimeHook);
+            state = 0x10;
             return nullptr;
         }
+        state = 1;
     }
     return sdPtr;
 }
@@ -53,9 +67,9 @@ SdWriter * SdWriter::Open(const ::DateTime &dateTime)
         '\0'
     };
 
-    SD.mkdir(buf);
+    SDX.mkdir(buf);
     buf[8] = '/';
-    writer->file = SD.open(buf, FILE_WRITE);
+    writer->file = SDX.open(buf, FILE_WRITE);
     if (writer->file)
     {
         return writer;

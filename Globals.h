@@ -5,15 +5,19 @@
 
 enum class Pins : byte
 {
-    NMEA_RX = 9,
-    NMEA_TX = 8,
+    //NMEA_RX = 9,
+    //NMEA_TX = 8,
 
-    /*LPM_RX = 9,
-    LPM_TX = 8,*/
+    LPM_RX = 7,
+    LPM_TX = 8,
 
-    SD_ENABLE = 13,
+    LCD_STATE = 4,
+
+    SD_ENABLE = 10,
 
     LCD_BUTTONS = A0,
+
+    RED_LED = 3,
 };
 
 enum class I2C : byte
@@ -25,9 +29,7 @@ namespace NmeaData
 {
     extern ::DateTime DateTime;
     extern ::Location Location;
-
-    extern ::DateTime FirstDateTime;
-    extern byte FirstDateTimeHasValue;
+    extern byte Version;
 }
 
 extern byte PressedButtons;
